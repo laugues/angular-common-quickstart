@@ -9,8 +9,9 @@ angular.module('BalanceForms', [
     'ngSanitize',
     'pascalprecht.translate',
     'ui.bootstrap.dropdown',
-    'angular-blocks'
-    ])
+    'BalanceForms.directives'
+
+])
     .config(['$translateProvider', '$translatePartialLoaderProvider', function ($translateProvider, $translatePartialLoaderProvider) {
         // Declare languages mapping
         $translateProvider.registerAvailableLanguageKeys(['en', 'fr', 'de'], {
