@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('MusicManager')
+angular.module('BalanceForms')
     .factory('AuthService',  ['$rootScope', function ($rootScope) {
 
         $rootScope.user = null;

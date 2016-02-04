@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('MusicManager')
+angular.module('BalanceForms')
     .controller('LoginController', [
         '$scope',
         'AuthService',

@@ -1,11 +1,15 @@
 'use strict';
 
-angular.module('MusicManager', [
+angular.module('BalanceForms.directives', []);
+
+
+angular.module('BalanceForms', [
     'itesoft',
     'ngRoute',
     'ngSanitize',
     'pascalprecht.translate',
-    'ui.bootstrap.dropdown'
+    'ui.bootstrap.dropdown',
+    'angular-blocks'
     ])
     .config(['$translateProvider', '$translatePartialLoaderProvider', function ($translateProvider, $translatePartialLoaderProvider) {
         // Declare languages mapping

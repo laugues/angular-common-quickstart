@@ -26,6 +26,7 @@ var karma = require('gulp-karma');
  */
 gulp.task('build', function(callback){
     runSequence('clean',
+        'build-trad',
         'sass',
         'vendor-js',
         'app-js',

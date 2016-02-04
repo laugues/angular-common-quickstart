@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="jumbotron">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group"  ng-repeat="item in data">
+                        <input it-input
+                               it-label="{{item.field}}"
+                               required=""
+                               name="user"
+                               class="form-control floating-label mg-top-15"
+                               type="text"
+                               ng-model="item.value">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+
+                    <div data-extend-template="app/template/common/commonTemplate.html">
+                        <div data-block="header">
+                            <ul>
+                                <li>
+                                    hello world header
+                                </li>
+                            </ul>
+                        </div>
+                        <div data-block="content">
+                            <ul>
+                                <li>
+                                    hello world content
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

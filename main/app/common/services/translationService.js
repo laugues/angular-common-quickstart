@@ -25,7 +25,7 @@
  */
 'use strict';
 
-angular.module('MusicManager')
+angular.module('BalanceForms')
     .service('TranslationService',
     ['$q','$translate','$translatePartialLoader', function($q, $translate, $translatePartialLoader) {
         return function() {
