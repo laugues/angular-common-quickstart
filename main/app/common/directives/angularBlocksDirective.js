@@ -31,7 +31,7 @@ angular.module('BalanceForms.directives')
                     $timeout(function () {
 
                         var src = iAttrs.extendTemplate;
-                        console.log("src = ", src);
+                        //console.log("src = ", src);
                         if (!src) {
                             throw 'Template not specified in extend-template directive';
                         }
