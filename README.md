@@ -1,10 +1,13 @@
 
+#Demo 
+[Ici](http://laugues.github.io/angular-forms-quickstart/dist/)
+
 #Build & Run
 ##Prérequis
 
 git avec prise en charge du prompt sous windows.
 
-npm. testé et validé avec la version [0.12.2 de nodejs](https://nodejs.org/dist/v0.12.2/).
+npm. testé et validé avec la version [4.2.2 de nodejs](https://nodejs.org/download/release/v4.2.2/).
 
 installer bower et gulp en globale :
 
