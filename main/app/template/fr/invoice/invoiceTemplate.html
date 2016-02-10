@@ -1,0 +1,48 @@
+<div it-angular-blocks  data-extend-template="app/template/eur/invoice/invoiceTemplate.html" id="app/template/fr/invoice/invoiceTemplate.html">
+    <!--Header is not overriden-->
+    <div data-block-append="content">
+        <div class="form-group">
+            <input it-input
+                   it-label="Montant Total Net"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.totalNetAmount">
+        </div>
+        <div class="form-group">
+            <input it-input
+                   it-label="Site"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.site">
+        </div>
+        <div class="form-group">
+            <input it-input
+                   it-label="Type"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.type">
+        </div>
+        <div class="form-group">
+            <input it-input
+                   it-label="Date de numérisation"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.scandate">
+        </div>
+    </div>
+    <div data-block="footer">
+        <ul>
+            <li>
+                hello world footer
+            </li>
+        </ul>
+    </div>
+</div>

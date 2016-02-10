@@ -6,6 +6,7 @@ angular.module('BalanceForms.directives', []);
 angular.module('BalanceForms', [
     'itesoft',
     'ngRoute',
+    'ngResource',
     'ngSanitize',
     'pascalprecht.translate',
     'ui.bootstrap.dropdown',

@@ -1,23 +1,36 @@
-<div it-angular-blocks  data-extend-template="app/template/common/commonTemplate.html">
-    <div data-block="header">
-        <ul>
-            <li>
-                hello world header
-            </li>
-        </ul>
-    </div>
-    <div data-block="content">
-        <ul>
-            <li>
-                hello world content
-            </li>
-        </ul>
+<div it-angular-blocks  data-extend-template="app/template/common/commonTemplate.html" id="app/template/world/invoice/invoiceTemplate.html">
+
+    <div data-block-append="content">
+        <br/>
+        <div class="form-group">
+            <input it-input
+                   it-label="Etat"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.status">
+        </div>
+        <div class="form-group">
+            <input it-input
+                   it-label="N° de facture"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.number">
+        </div>
+        <div class="form-group">
+            <input it-input
+                   it-label="Devise"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.currency">
+        </div>
     </div>
     <div data-block="footer">
-        <ul>
-            <li>
-                hello world footer
-            </li>
-        </ul>
+       <div></div>
     </div>
 </div>

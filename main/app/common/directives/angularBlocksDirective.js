@@ -10,79 +10,95 @@ angular.module('BalanceForms.directives')
         '$log',
         '$timeout', function ($templateCache, $compile, $http, $q, $log, $timeout) {
 
+
+            var BLOCK_REPLACE_ATTRIBUTE = 'data-block';
+            var BLOCK_APPEND_ATTRIBUTE = 'data-block-append';
+            var BLOCK_PREPEND_ATTRIBUTE = 'data-block-prepend';
+            var BLOCK_BEFORE_ATTRIBUTE = 'data-block-before';
+            var BLOCK_AFTER_ATTRIBUTE = 'data-block-after';
+
+
             function warnMissingBlock(name, src) {
                 $log.warn('Failed to find ' + name + ' in ' + src);
             }
 
             function _link(scope, iElement, iAttrs, controller, transcludeFn) {
 
-                $log.debug("override ....");
                 iElement.removeAttr("extends-template");
 
-                $log.debug("iAttrs.dataExtendTemplate =", iAttrs.extendTemplate);
-                $log.debug("iAttrs =", iAttrs);
                 transcludeFn(scope.$parent, function (clones, scope) {
+                    console.log("in transcludeFn");
                     $timeout(function () {
 
                         var src = iAttrs.extendTemplate;
-                        $log.debug("extendTemplate '", src);
+                        console.log("src = ", src);
                         if (!src) {
                             throw 'Template not specified in extend-template directive';
                         }
                         var response = $http.get(src, {cache: $templateCache});
-                        $log.debug("clones '", clones);
 
 
                         var loadTemplate = response
                             .then(function (response) {
                                 var template = response.data;
                                 var elementCompile = angular.element("<div></div>").html(template);
-                                $log.debug('Create element and append template   == ', elementCompile);
 
-                                function overrider($block) {
+                                function overrider(attributeName, $block) {
 
                                     $block = angular.element($block);
-                                    var name = $block.attr("data-block");
+                                    var name = $block.attr(attributeName);
 
-                                    $log.debug("Treating block '" + name + "'...");
+                                    var selectorString = '[id="' + src + '"] > [data-block="' + name + '"]';
+                                    var selectorString1 = '[id="' + src + '"] > [data-block-append="' + name + '"]';
+                                    var selectorString2 = '[id="' + src + '"] > [data-block-prepend="' + name + '"]';
+                                    var selectorString3 = '[id="' + src + '"] > [data-block-after="' + name + '"]';
+                                    var selectorString4 = '[id="' + src + '"] > [data-block-before="' + name + '"]';
+                                    //var selectorString = '[id="' + src + '"] > *';
 
-                                    var search = angular.element(elementCompile)[0].querySelector('[id="' + src + '"] > [data-block="' + name + '"]');
+                                    var search = angular.element(elementCompile)[0].querySelector(
+                                        selectorString+","+
+                                        selectorString1+","+
+                                        selectorString2+","+
+                                        selectorString3+","+
+                                        selectorString4
+
+                                    );
+                                    //var search = Array.prototype.slice.call(angular.element(elementCompile)[0].querySelectorAll('*'))
+                                    //    .filter(function (el) {
+                                    //        return el.tagName.match(/^data\-block/i);
+                                    //    });
+
                                     search = angular.element(search);
                                     if (!search.length) {
                                         warnMissingBlock(name, src);
                                     }
                                     var services = {
                                         before: function () {
-                                            search.insertBefore($block.html());
+                                            search.parent()[0].insertBefore($block[0], search[0]);
                                         },
                                         after: function () {
-                                            search.insertAfter($block.html());
+                                            search.after($block);
                                         },
                                         prepend: function () {
-                                            search.prepend($block.html());
+                                            search.prepend($block);
                                         },
                                         append: function () {
-                                            search.appendChild($block.html());
+                                            search.append($block);
                                         },
                                         replace: function () {
-                                            $log.debug("$block  '", $block.html());
-                                            $log.debug("search beforer  '", search);
-                                            search.replaceWith($block.html());
-                                            $log.debug("search after  '", search);
+                                            search.replaceWith($block);
                                         }
                                     };
 
-                                    $log.debug("Treating block '" + name + "' done.");
                                     return services;
                                 }
 
                                 // Clone and then clear the template element to prevent expressions from being evaluated
                                 for (var i = 0; i < clones.length; i++) {
-                                    $log.debug("========  " + i + "============= '");
+
                                     var element = clones[i];
-                                    $log.debug("element '", element);
+
                                     var total = 0;
-                                    $log.debug("element.nodeType '", element.nodeType);
 
                                     if (!element || element.nodeType > 1) {
                                         continue;
@@ -96,52 +112,37 @@ angular.module('BalanceForms.directives')
                                     var promise = $q.defer();
 
 
-                                    var blocks = angular.element($clone.querySelectorAll('[data-block]'));
-                                    $log.debug("blocks...", blocks);
+                                    var blocks = angular.element($clone.querySelectorAll('[' + BLOCK_REPLACE_ATTRIBUTE + ']'));
                                     angular.forEach(blocks, function (value) {
-                                        $log.debug("Executing Replace action ...");
-                                        var override = overrider(value);
-                                        override.replace();
-                                        $log.debug("override '" + value);
-                                        $log.debug("Executing Replace action Done.");
+                                        var override = overrider(BLOCK_REPLACE_ATTRIBUTE, value);
+                                        override['replace']();
                                     });
 
-                                    var blockPreprends = angular.element($clone.querySelectorAll('[data-block-prepend]'));
+                                    var blockPreprends = angular.element($clone.querySelectorAll('[' + BLOCK_PREPEND_ATTRIBUTE + ']'));
                                     angular.forEach(blockPreprends, function (value) {
-                                        $log.debug("Executing prepend action ...");
-                                        var override = overrider(value);
-                                        override.prepend();
-                                        $log.debug("Executing prepend action DONE.");
+                                        var override = overrider(BLOCK_PREPEND_ATTRIBUTE, value);
+                                        override['prepend']();
                                     });
 
-                                    // Insert append ly-blocks
-                                    var blockAppends = angular.element($clone.querySelectorAll('[data-block-append]'));
+
+                                    var blockAppends = angular.element($clone.querySelectorAll('[' + BLOCK_APPEND_ATTRIBUTE + ']'));
                                     angular.forEach(blockAppends, function (value) {
-                                        $log.debug("Executing append action ...");
-                                        var override = overrider(value);
-                                        override.append();
-                                        $log.debug("Executing append action DONE.");
-
+                                        var override = overrider(BLOCK_APPEND_ATTRIBUTE, value);
+                                        override['append']();
                                     });
 
-                                    var blockBefore = angular.element($clone.querySelectorAll('[data-block-before]'));
+                                    var blockBefore = angular.element($clone.querySelectorAll('[' + BLOCK_BEFORE_ATTRIBUTE + ']'));
                                     angular.forEach(blockBefore, function (value) {
-                                        $log.debug("Executing before action ...");
-                                        var override = overrider(value);
-                                        override.before();
-                                        $log.debug("Executing before action DONE.");
+                                        var override = overrider(BLOCK_BEFORE_ATTRIBUTE, value);
+                                        override['before']();
 
                                     });
 
-                                    var blockAfter = angular.element($clone.querySelectorAll('[data-block-after]'));
+                                    var blockAfter = angular.element($clone.querySelectorAll('[' + BLOCK_AFTER_ATTRIBUTE + ']'));
                                     angular.forEach(blockAfter, function (value) {
-                                        $log.debug("Executing after action ...");
-                                        var override = overrider(value);
-                                        override.after();
-                                        $log.debug("Executing after action DONE.");
-
+                                        var override = overrider(BLOCK_AFTER_ATTRIBUTE, value);
+                                        override['after']();
                                     });
-                                    $log.debug("===================== '");
                                 }
                                 return elementCompile;
 
@@ -152,10 +153,9 @@ angular.module('BalanceForms.directives')
                                 return $q.reject(msg);
                             });
 
-                        $log.debug(clones);
+                        $log.debug(loadTemplate);
 
                         loadTemplate.then(function ($template) {
-                            $log.debug("$template = ", $template);
                             iElement.html($template.html());
                             $compile(iElement.contents())(scope);
                         });
@@ -168,7 +168,7 @@ angular.module('BalanceForms.directives')
 
             return {
                 transclude: 'true',
-                terminal: true,
+                //terminal: true,
                 restrict: 'A',
                 scope: {
                     extendTemplate: '='

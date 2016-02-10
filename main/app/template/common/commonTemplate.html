@@ -1,11 +1,20 @@
 <div id="app/template/common/commonTemplate.html">
     <div data-block="header">
-        <div>:header</div>
+        <button class="btn btn-danger" ng-click="validate(invoice)" type="button">Valider</button>
     </div>
     <div data-block="content">
-        <div>:content</div>
+        <br/>
+        <div class="form-group">
+            <input it-input
+                   it-label="N° de lot"
+                   required=""
+                   name="user"
+                   class="form-control floating-label mg-top-15"
+                   type="text"
+                   ng-model="selectedInvoice.batchName">
+        </div>
     </div>
     <div data-block="footer">
-        <div>:footer</div>
+        <div>Generic footer</div>
     </div>
 </div>
