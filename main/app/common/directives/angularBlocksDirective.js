@@ -27,7 +27,7 @@ angular.module('BalanceForms.directives')
                 iElement.removeAttr("extends-template");
 
                 transcludeFn(scope.$parent, function (clones, scope) {
-                    console.log("in transcludeFn");
+
                     $timeout(function () {
 
                         var src = iAttrs.extendTemplate;
@@ -153,7 +153,7 @@ angular.module('BalanceForms.directives')
                                 return $q.reject(msg);
                             });
 
-                        $log.debug(loadTemplate);
+                        //$log.debug(loadTemplate);
 
                         loadTemplate.then(function ($template) {
                             iElement.html($template.html());
