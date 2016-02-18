@@ -42,9 +42,7 @@ angular.module('BalanceForms.directives')
 
             function _link(scope, iElement, iAttrs, controller, transcludeFn) {
 
-                //$log.debug("into _link scope.extendTemplate = ",scope.extendTemplate);
                 var extendedTemplateUrl = retrieveExtendedTemplate(scope, iAttrs);
-                $log.debug("into _link url = ", extendedTemplateUrl);
 
                 //iElement.removeAttr("extends-template");
 
