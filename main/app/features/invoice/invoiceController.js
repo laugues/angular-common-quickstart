@@ -10,8 +10,8 @@ angular.module('BalanceForms')
 
             $scope.view = function (invoice){
                 $scope.selectedInvoice = invoice;
-                $scope.templateUrl = 'app/template/'+$scope.selectedInvoice.countryCode.toLowerCase()+'/invoice/invoiceTemplate.html';
-                console.log("$scope.templateUrl  ",$scope.templateUrl );
+                $scope.currentTemplateUrl = 'app/template/'+$scope.selectedInvoice.countryCode.toLowerCase()+'/invoice/invoiceTemplate.html';
+                console.log("$scope.currentTemplateUrl  ",$scope.currentTemplateUrl );
             }
 
             $scope.validate = function (invoice){

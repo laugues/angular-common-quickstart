@@ -22,16 +22,39 @@ angular.module('BalanceForms.directives')
                 $log.warn('Failed to find ' + name + ' in ' + src);
             }
 
+            /**
+             * Retrieve "extendTemplate" from the scope.
+             * @param scope the scope
+             * @param attributes attributes provided by the directive
+             * @returns {string} the value evaluated or not
+             */
+            function retrieveExtendedTemplate(scope, attributes) {
+                if (scope.extendTemplate == null || typeof scope.extendTemplate === 'undefined' || JSON.stringify(scope.extendTemplate) === "null") {
+                    if (attributes.extendTemplate) {
+                        return attributes.extendTemplate;
+                    } else {
+                        $log.warning("Can not find valid 'extendTemplate' attribute...");
+                    }
+
+                }
+                return scope.extendTemplate;
+            }
+
             function _link(scope, iElement, iAttrs, controller, transcludeFn) {
 
-                iElement.removeAttr("extends-template");
+                //$log.debug("into _link scope.extendTemplate = ",scope.extendTemplate);
+                var extendedTemplateUrl = retrieveExtendedTemplate(scope, iAttrs);
+                $log.debug("into _link url = ", extendedTemplateUrl);
 
-                transcludeFn(scope.$parent, function (clones, scope) {
+                //iElement.removeAttr("extends-template");
+
+
+                transcludeFn(function (clones, scope) {
 
                     $timeout(function () {
 
-                        var src = iAttrs.extendTemplate;
-                        //console.log("src = ", src);
+                        var src = extendedTemplateUrl;
+
                         if (!src) {
                             throw 'Template not specified in extend-template directive';
                         }
@@ -56,17 +79,12 @@ angular.module('BalanceForms.directives')
                                     //var selectorString = '[id="' + src + '"] > *';
 
                                     var search = angular.element(elementCompile)[0].querySelector(
-                                        selectorString+","+
-                                        selectorString1+","+
-                                        selectorString2+","+
-                                        selectorString3+","+
+                                        selectorString + "," +
+                                        selectorString1 + "," +
+                                        selectorString2 + "," +
+                                        selectorString3 + "," +
                                         selectorString4
-
                                     );
-                                    //var search = Array.prototype.slice.call(angular.element(elementCompile)[0].querySelectorAll('*'))
-                                    //    .filter(function (el) {
-                                    //        return el.tagName.match(/^data\-block/i);
-                                    //    });
 
                                     search = angular.element(search);
                                     if (!search.length) {
@@ -153,7 +171,6 @@ angular.module('BalanceForms.directives')
                                 return $q.reject(msg);
                             });
 
-                        //$log.debug(loadTemplate);
 
                         loadTemplate.then(function ($template) {
                             iElement.html($template.html());
@@ -168,7 +185,6 @@ angular.module('BalanceForms.directives')
 
             return {
                 transclude: 'true',
-                //terminal: true,
                 restrict: 'A',
                 scope: {
                     extendTemplate: '='
