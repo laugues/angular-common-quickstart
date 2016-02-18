@@ -10,7 +10,8 @@ angular.module('BalanceForms')
 
             $scope.view = function (invoice){
                 $scope.selectedInvoice = invoice;
-                $scope.currentTemplateUrl = 'app/template/'+$scope.selectedInvoice.countryCode.toLowerCase()+'/invoice/invoiceTemplate.html';
+                //$scope.currentTemplateUrl = 'app/template/'+$scope.selectedInvoice.countryCode.toLowerCase()+'/invoice/invoiceTemplate.html';
+                $scope.currentTemplateUrl = 'http://localhost:8080/api/rest/html/get';
                 console.log("$scope.currentTemplateUrl  ",$scope.currentTemplateUrl );
             }
 
