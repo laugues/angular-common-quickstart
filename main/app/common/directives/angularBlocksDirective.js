@@ -11,6 +11,11 @@ angular.module('BalanceForms.directives')
         '$timeout', function ($templateCache, $compile, $http, $q, $log, $timeout) {
             var stackCount = 0;
             var urlsUsed = [];
+            /**
+             * Prevent for infinite loop
+             * @type {number}
+             */
+            var MAX_LOOP_LIMIT = 3;
 
             var BLOCK_REPLACE_ATTRIBUTE = 'data-block';
             var BLOCK_APPEND_ATTRIBUTE = 'data-block-append';
@@ -29,12 +34,15 @@ angular.module('BalanceForms.directives')
              * @param attributes attributes provided by the directive
              * @returns {string} the value evaluated or not
              */
-            function retrieveExtendedTemplate(scope, attributes) {
-                //$log.debug("scope.extendTemplate is : ", scope.extendTemplate );
+            function retrieveExtendedTemplate(scope, attributes, stackCount) {
+
+                if(stackCount == 0) {
+                    return scope.rootExtendTemplate;
+                }
 
                 if (scope.extendTemplate == null || typeof scope.extendTemplate === 'undefined' || JSON.stringify(scope.extendTemplate) === "null") {
                     if (attributes.extendTemplate) {
-                        //$log.debug("return  : ", attributes.extendTemplate );
+                        $log.debug("attributes.extendTemplate = ", attributes.extendTemplate);
                         return attributes.extendTemplate;
                     } else {
                         $log.warning("Can not find valid 'extendTemplate' attribute...");
@@ -60,7 +68,7 @@ angular.module('BalanceForms.directives')
 
             function _link(scope, iElement, iAttrs, controller, transcludeFn) {
                 //$log.debug("**************************************" );
-                var extendedTemplateUrl = retrieveExtendedTemplate(scope, iAttrs);
+                var extendedTemplateUrl = retrieveExtendedTemplate(scope, iAttrs, stackCount);
 
                 //Add the current url to the list of already used url
                 urlsUsed.push(extendedTemplateUrl);
@@ -70,17 +78,13 @@ angular.module('BalanceForms.directives')
                 }).length;
 
 
-                //$log.warn("occurrences of "+extendedTemplateUrl+" = ", occurrences);
-                //$log.warn("urlUsed = ", urlsUsed);
-                //$log.warn("stackcount = ", stackCount);
-
-                if(occurrences > 3){
-                    $log.warn("occurrences of "+extendedTemplateUrl+" = ", occurrences);
-                    $log.warn("urlUsed are : ", urlsUsed);
+                if(occurrences > MAX_LOOP_LIMIT){
+                    //$log.warn("occurrences of "+extendedTemplateUrl+" = ", occurrences);
+                    //$log.warn("urlUsed are : ", urlsUsed);
                     throw 'Infinite loop detected... '+occurrences+' occurrences on url '+extendedTemplateUrl;
                 }
 
-                iElement.removeAttr("extend-template");
+                //iElement.removeAttr("extend-template");
 
 
                 transcludeFn(scope.$parent, function (clones, scope) {
@@ -239,6 +243,7 @@ angular.module('BalanceForms.directives')
                 transclude: 'true',
                 restrict: 'A',
                 scope: {
+                    rootExtendTemplate: '=',
                     extendTemplate: '@'
                 },
                 replace: true,
