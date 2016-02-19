@@ -45,7 +45,7 @@ angular.module('BalanceForms.directives')
                         $log.debug("attributes.extendTemplate = ", attributes.extendTemplate);
                         return attributes.extendTemplate;
                     } else {
-                        $log.warning("Can not find valid 'extendTemplate' attribute...");
+                        $log.warn("Can not find valid 'extendTemplate' attribute...");
                     }
                 }
                 return scope.extendTemplate;
@@ -182,7 +182,8 @@ angular.module('BalanceForms.directives')
                                     //$log.debug("total after is : ", total );
                                     var $clone = document.createElement("div");
                                     angular.element($clone).append(childClone);
-                                    $log.debug("$clone is : ", $clone );
+                                    //$log.debug("$clone is : ", $clone );
+
                                     var promise = $q.defer();
 
                                     //$log.debug("BLOCK_REPLACE_ATTRIBUTE is : ", BLOCK_REPLACE_ATTRIBUTE );
