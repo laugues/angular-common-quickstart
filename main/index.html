@@ -19,6 +19,17 @@
         <script type='text/javascript' src="assets/lib/angular-common/dist/app/itesoft.debug.js"></script>
         <script type='text/javascript' src="assets/lib/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
         <script type='text/javascript' src="assets/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+        <script type='text/javascript' src="assets/lib/systemjs/dist/system.js"></script>
+        <script>
+            // set our baseURL reference path
+            System.config({
+                baseURL: 'assets/js/endpoint/features/invoice/controller'
+            });
+
+            // loads /assets/js/endpoint/test.js
+            System.import('test.js');
+        </script>
+
 
         <!-- Core Scripts -->
         <script type='text/javascript' src="app/app.module.js"></script>
