@@ -36,9 +36,9 @@ angular.module('BalanceForms.directives')
              */
             function retrieveExtendedTemplate(scope, attributes, stackCount) {
 
-                if(stackCount == 0) {
-                    return scope.rootExtendTemplate;
-                }
+                //if(stackCount == 0) {
+                //    return scope.rootExtendTemplate;
+                //}
 
                 if (scope.extendTemplate == null || typeof scope.extendTemplate === 'undefined' || JSON.stringify(scope.extendTemplate) === "null") {
                     if (attributes.extendTemplate) {
@@ -242,10 +242,9 @@ angular.module('BalanceForms.directives')
 
             return {
                 transclude: 'true',
-                restrict: 'A',
+                restrict: 'E',
                 scope: {
-                    rootExtendTemplate: '=',
-                    extendTemplate: '@'
+                    extendTemplate: '='
                 },
                 replace: true,
                 priority: 10000,

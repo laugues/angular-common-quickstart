@@ -21,13 +21,8 @@
         <script type='text/javascript' src="assets/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
         <script type='text/javascript' src="assets/lib/systemjs/dist/system.js"></script>
         <script>
-            // set our baseURL reference path
-            System.config({
-                baseURL: 'assets/js/endpoint/features/invoice/controller'
-            });
-
-            // loads /assets/js/endpoint/test.js
-            System.import('test.js');
+            //    System.paths['frJS'] = 'http://localhost:8080/fr/rest/js/get';
+            System.import('http://localhost:8080/fr/rest/js/get');
         </script>
 
 
